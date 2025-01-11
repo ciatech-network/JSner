@@ -2,7 +2,7 @@
 bookmark for javascript endpoint extractor
 
 - add new bookmark 
-- in the url paste the endpoint script
+- in the url paste the minified script
 
 ![endpoint](bookmark-script.png)
 
