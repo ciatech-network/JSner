@@ -14,6 +14,8 @@
 - This is Fork of a Project so you can contribute either here or the main project.
 
 ## Extension
-```
-It Will be released soon in the chrome web store. 
-```
+Please visit the link below to add it to your chrome.chromium based browser
+
+[JSner](https://chromewebstore.google.com/detail/JSner/gkmpnokjlhmbhppemigkhcddiiigjmcc)
+
+`Support for Firefox browsers coming soon` 
