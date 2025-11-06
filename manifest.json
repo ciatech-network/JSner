@@ -1,13 +1,23 @@
 {
     "manifest_version": 3,
-    "name": "Run JS on Current Domain",
-    "version": "1.0",
-    "description": "Runs custom JavaScript code on the current domain.",
-    "permissions": ["scripting", "activeTab"],
+    "name": "JSner - Endpoint Extractor",
+    "version": "2.0.0",
+    "description": "Advanced endpoint scanner with verification. Extract and test API endpoints, GraphQL queries, and more from any website.",
+    "permissions": ["scripting", "activeTab", "storage", "tabs"],
     "host_permissions": ["<all_urls>"],
-    "background": {
-      "service_worker": "popup.js"
-    },
+    "content_scripts": [
+      {
+        "matches": ["<all_urls>"],
+        "js": ["content-scanner.js"],
+        "run_at": "document_end"
+      }
+    ],
+    "web_accessible_resources": [
+      {
+        "resources": ["results.html", "results.js"],
+        "matches": ["<all_urls>"]
+      }
+    ],
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
@@ -15,7 +25,7 @@
         "48": "icons/icon48.png",
         "128": "icons/icon128.png"
       },
-      "default_title": "Run Custom Code"
+      "default_title": "JSner - Extract Endpoints"
     }
   }
   

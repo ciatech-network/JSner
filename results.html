@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JSner - Scan Results</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Fira+Code:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    body {
+      font-family: 'Fira Code', 'Share Tech Mono', 'Courier New', monospace;
+      background: #0a0a0a;
+      color: #00ff41;
+      min-height: 100vh;
+      padding: 30px 20px;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 40%, rgba(0, 255, 65, 0.08) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 60%, rgba(0, 255, 65, 0.05) 0%, transparent 50%);
+      filter: blur(80px);
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 25px;
+      border: 1px solid #00ff41;
+      padding: 18px;
+      background: rgba(0, 255, 65, 0.03);
+      position: relative;
+      animation: fadeIn 0.4s ease;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header::before {
+      content: '[ RESULTS ]';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #0a0a0a;
+      padding: 0 12px;
+      font-size: 10px;
+      color: rgba(0, 255, 65, 0.7);
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+
+    .header h1 {
+      font-size: 36px;
+      font-weight: 700;
+      color: #00ff41;
+      letter-spacing: 5px;
+      margin-bottom: 6px;
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .header p {
+      font-size: 11px;
+      color: rgba(0, 255, 65, 0.7);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .controls-bar {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+    }
+
+    .search-box::before {
+      content: '>';
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #00ff41;
+      font-size: 16px;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px 14px 40px;
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      color: #00ff41;
+      font-size: 13px;
+      font-weight: 500;
+      transition: all 0.2s;
+      font-family: 'Fira Code', monospace;
+      letter-spacing: 1px;
+      border-radius: 6px;
+      backdrop-filter: blur(10px);
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: #00ff41;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+      background: rgba(0, 255, 65, 0.1);
+    }
+
+    .search-box input::placeholder {
+      color: rgba(0, 255, 65, 0.4);
+    }
+
+    .filter-buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 14px 20px;
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      color: rgba(0, 255, 65, 0.7);
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Fira Code', monospace;
+      border-radius: 6px;
+      backdrop-filter: blur(10px);
+    }
+
+    .filter-btn:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: #00ff41;
+      color: #00ff41;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+    }
+
+    .filter-btn.active {
+      background: rgba(0, 255, 65, 0.15);
+      border-color: #00ff41;
+      color: #00ff41;
+    }
+
+    .export-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .export-btn {
+      padding: 14px 20px;
+      background: rgba(0, 255, 65, 0.08);
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-family: 'Fira Code', monospace;
+    }
+
+    .export-btn:hover {
+      background: rgba(0, 255, 65, 0.15);
+    }
+
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 25px;
+      animation: fadeIn 1s ease;
+    }
+
+    .stat-card {
+      background: rgba(0, 255, 65, 0.03);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      padding: 18px;
+      text-align: center;
+      transition: all 0.2s;
+      position: relative;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card::before {
+      content: '[';
+      position: absolute;
+      left: 8px;
+      top: 8px;
+      color: #00ff41;
+      font-size: 12px;
+    }
+
+    .stat-card::after {
+      content: ']';
+      position: absolute;
+      right: 8px;
+      bottom: 8px;
+      color: #00ff41;
+      font-size: 12px;
+    }
+
+    .stat-card:hover {
+      border-color: #00ff41;
+      box-shadow: 0 0 20px rgba(0, 255, 65, 0.4);
+    }
+
+    .stat-label {
+      font-size: 10px;
+      color: rgba(0, 255, 65, 0.6);
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: #00ff41;
+      text-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+      font-family: 'Share Tech Mono', monospace;
+    }
+
+    .results-container {
+      animation: fadeIn 1.2s ease;
+    }
+
+    .category-section {
+      margin-bottom: 30px;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background: rgba(0, 255, 65, 0.05);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .category-header:hover {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: #00ff41;
+      box-shadow: 0 0 15px rgba(0, 255, 65, 0.3);
+    }
+
+    .category-title {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      font-size: 18px;
+      font-weight: 800;
+      color: #00ff41;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .category-icon {
+      font-size: 20px;
+    }
+
+    .category-count {
+      padding: 6px 12px;
+      background: rgba(0, 255, 65, 0.1);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      font-size: 11px;
+      font-weight: 700;
+      color: #00ff41;
+      letter-spacing: 1px;
+    }
+
+    .category-toggle {
+      font-size: 16px;
+      transition: transform 0.3s;
+      color: #00ff41;
+    }
+
+    .category-header.collapsed .category-toggle {
+      transform: rotate(-90deg);
+    }
+
+    .category-content {
+      background: rgba(0, 255, 65, 0.02);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      border-top: none;
+      padding: 15px;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+
+    .category-content.hidden {
+      display: none;
+    }
+
+    .endpoint-item {
+      background: rgba(0, 255, 65, 0.03);
+      border: 1px solid rgba(0, 255, 65, 0.2);
+      padding: 12px 15px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all 0.2s;
+      cursor: pointer;
+      word-break: break-all;
+    }
+
+    .endpoint-item::before {
+      content: '>';
+      margin-right: 10px;
+      color: rgba(0, 255, 65, 0.5);
+    }
+
+    .endpoint-item:hover {
+      background: rgba(0, 255, 65, 0.08);
+      border-color: #00ff41;
+      padding-left: 20px;
+    }
+
+    .endpoint-text {
+      flex: 1;
+      font-family: 'Fira Code', monospace;
+      font-size: 12px;
+      color: rgba(0, 255, 65, 0.9);
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+
+    .verification-badge {
+      padding: 3px 8px;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-left: 10px;
+      border: 1px solid;
+    }
+
+    .verification-badge.verified {
+      background: rgba(0, 255, 65, 0.1);
+      border-color: #00ff41;
+      color: #00ff41;
+    }
+
+    .verification-badge.failed {
+      background: rgba(255, 0, 65, 0.1);
+      border-color: #ff0041;
+      color: #ff0041;
+    }
+
+    .verification-badge.pending {
+      background: rgba(255, 165, 0, 0.1);
+      border-color: #ffa500;
+      color: #ffa500;
+    }
+
+    .endpoint-actions {
+      display: flex;
+      gap: 8px;
+      margin-left: 15px;
+    }
+
+    .action-icon {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 255, 65, 0.1);
+      border: 1px solid rgba(0, 255, 65, 0.3);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 12px;
+    }
+
+    .action-icon:hover {
+      background: rgba(0, 255, 65, 0.2);
+      border-color: #00ff41;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      border: 2px dashed rgba(0, 255, 65, 0.3);
+      background: rgba(0, 255, 65, 0.02);
+    }
+
+    .empty-state-icon {
+      font-size: 60px;
+      margin-bottom: 20px;
+    }
+
+    .empty-state h2 {
+      font-size: 24px;
+      font-weight: 800;
+      color: #00ff41;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+      color: rgba(0, 255, 65, 0.6);
+      letter-spacing: 1px;
+    }
+
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 255, 65, 0.5);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 255, 65, 0.8);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      padding: 12px 20px;
+      background: rgba(0, 255, 65, 0.15);
+      border: 1px solid #00ff41;
+      color: #00ff41;
+      font-weight: 700;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s;
+      z-index: 1000;
+      font-family: 'Fira Code', monospace;
+      letter-spacing: 0.5px;
+      font-size: 11px;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>JSNER</h1>
+      <p>ENDPOINT SCAN RESULTS</p>
+    </div>
+
+    <div class="controls-bar">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="SEARCH ENDPOINTS..." />
+      </div>
+      <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="endpoints">ENDPOINTS</button>
+        <button class="filter-btn" data-filter="apis">APIs</button>
+        <button class="filter-btn" data-filter="graphql">GRAPHQL</button>
+        <button class="filter-btn" data-filter="config">CONFIG</button>
+      </div>
+      <div class="export-buttons">
+        <button class="export-btn" id="exportAllBtn">EXPORT ALL</button>
+      </div>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-card">
+        <div class="stat-label">Total Endpoints</div>
+        <div class="stat-value" id="totalStat">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Unique APIs</div>
+        <div class="stat-value" id="apiStat">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">GraphQL</div>
+        <div class="stat-value" id="graphqlStat">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Config Files</div>
+        <div class="stat-value" id="configStat">0</div>
+      </div>
+    </div>
+
+    <div class="results-container" id="resultsContainer">
+      <!-- Results will be dynamically inserted here -->
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-state-icon">[!]</div>
+      <h2>NO RESULTS FOUND</h2>
+      <p>RUN A SCAN FIRST OR ADJUST YOUR SEARCH FILTERS</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="results.js"></script>
+</body>
+</html>
