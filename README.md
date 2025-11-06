@@ -54,7 +54,7 @@ JSner is a powerful Chrome extension that extracts and verifies API endpoints fr
 ### From Source
 1. Download the repository or clone it:
    ```bash
-   git clone https://github.com/yourusername/JSner.git
+   git clone https://github.com/ciatech-network/JSner.git
    ```
 
 2. Open Chrome and navigate to `chrome://extensions/`
@@ -215,9 +215,9 @@ Licensed under the MIT License - see LICENSE file for details
 
 ## 🔗 Links
 
-- **Main Repository**: [JSner GitHub](https://github.com/yourusername/JSner)
+- **Main Repository**: [JSner GitHub](https://github.com/ciatech-network/JSner)
 - **Chrome Web Store**: [JSner Extension](https://chromewebstore.google.com/detail/JSner/gkmpnokjlhmbhppemigkhcddiiigjmcc)
-- **Report Issues**: [GitHub Issues](https://github.com/yourusername/JSner/issues)
+- **Report Issues**: [GitHub Issues](https://github.com/ciatech-network/JSner/issues)
 
 ---
 
