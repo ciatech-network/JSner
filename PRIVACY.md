@@ -38,4 +38,4 @@ We may update this privacy policy from time to time to reflect changes in our pr
 
 ## Contact Us
 If you have any questions about this privacy policy or need further clarification, feel free to contact us at:
-Email: aroraharshit1210@gmail.com
+Email: contact@ciatech.net
