@@ -1,6 +1,6 @@
 # Privacy Policy
 ## Introduction
-This privacy policy outlines how your data is handled when you use the [Your Extension Name] browser extension. We are committed to protecting your privacy while providing you with a useful and secure tool.
+This privacy policy outlines how your data is handled when you use the JSNer browser extension. We are committed to protecting your privacy while providing you with a useful and secure tool.
 
 ## Information We Collect
 Our extension does not collect any personal information from you. The extension operates entirely within the browser and only accesses the content of the currently active tab when you choose to interact with it.
